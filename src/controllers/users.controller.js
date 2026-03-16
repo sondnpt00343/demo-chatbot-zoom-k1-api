@@ -1,6 +1,4 @@
-const { PrismaClient } = require('@prisma/client')
-
-const prisma = new PrismaClient()
+const { prisma } = require('../libs/prisma')
 
 const list = async (req, res) => {
   try {

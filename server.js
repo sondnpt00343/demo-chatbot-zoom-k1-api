@@ -1,8 +1,8 @@
-require('dotenv').config()
+require('dotenv/config')
 const express = require('express')
 const cors = require('cors')
 const responseMiddleware = require('./src/middlewares/response.middleware')
-const loadRoutes = require('./src/routes')
+const loadRoutes = require('./src/routes/index')
 
 const app = express()
 const port = process.env.PORT || 8000

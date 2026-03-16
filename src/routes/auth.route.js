@@ -9,7 +9,4 @@ router.post('/register', authController.register)
 router.post('/refresh', authController.refresh)
 router.get('/me', authMiddleware, authController.me)
 
-module.exports = {
-  router,
-  prefix: '/auth',
-}
+module.exports = { router }

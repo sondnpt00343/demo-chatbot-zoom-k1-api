@@ -13,7 +13,4 @@ router.get('/:id', conversationsController.getById)
 router.get('/:id/messages', conversationsController.getMessages)
 router.post('/:id/messages', conversationsController.sendMessage)
 
-module.exports = {
-  router,
-  prefix: '/conversations',
-}
+module.exports = { router }

@@ -7,7 +7,4 @@ const router = express.Router()
 router.get('/', authMiddleware, usersController.list)
 router.get('/:username', usersController.getByUsername)
 
-module.exports = {
-  router,
-  prefix: '/users',
-}
+module.exports = { router }

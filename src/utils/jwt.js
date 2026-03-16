@@ -20,8 +20,4 @@ const verifyRefresh = (token) => {
   return jwt.verify(token, JWT_SECRET)
 }
 
-module.exports = {
-  signAccess,
-  signRefresh,
-  verifyRefresh,
-}
+module.exports = { signAccess, signRefresh, verifyRefresh }

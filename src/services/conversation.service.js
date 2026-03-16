@@ -1,10 +1,9 @@
-const { PrismaClient } = require('@prisma/client')
-const pusher = require("../libs/pusher")
-const prisma = new PrismaClient()
+const pusher = require('../libs/pusher')
+const { prisma } = require('../libs/prisma')
 
 class ConversationService {
   async listByUserId(userId) {
-    const convos = await prisma.conversationUser.findMany({
+    const convos = await prisma.userConversation.findMany({
       where: { userId },
       include: {
         conversation: {
@@ -37,7 +36,7 @@ class ConversationService {
     return prisma.conversation.create({
       data: {
         type: 'dm',
-        conversationUsers: {
+        userConversations: {
           create: [{ userId }, { userId: otherUserId }],
         },
       },
@@ -48,14 +47,14 @@ class ConversationService {
     const convos = await prisma.conversation.findMany({
       where: {
         type: 'dm',
-        conversationUsers: {
+        userConversations: {
           some: { userId: currentUserId },
         },
       },
-      include: { conversationUsers: true },
+      include: { userConversations: true },
     })
     for (const conv of convos) {
-      const userIds = conv.conversationUsers.map((cu) => cu.userId)
+      const userIds = conv.userConversations.map((cu) => cu.userId)
       if (userIds.includes(otherUserId)) return conv
     }
     return null
@@ -65,7 +64,7 @@ class ConversationService {
     const conv = await prisma.conversation.findFirst({
       where: {
         id,
-        conversationUsers: { some: { userId } },
+        userConversations: { some: { userId } },
       },
     })
     return conv
@@ -83,6 +82,7 @@ class ConversationService {
         sender: { select: { id: true, username: true } },
       },
     })
+    messages.reverse();
     const hasMore = messages.length > limit
     const items = hasMore ? messages.slice(0, limit) : messages
     const nextCursor = hasMore ? items[items.length - 1].id : null

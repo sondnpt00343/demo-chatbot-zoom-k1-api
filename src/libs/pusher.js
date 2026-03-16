@@ -1,4 +1,4 @@
-const Pusher = require("pusher");
+const Pusher = require('pusher')
 
 const pusher = new Pusher({
     appId: process.env.VITE_SOKETI_ID,
@@ -8,6 +8,6 @@ const pusher = new Pusher({
     port: process.env.VITE_SOKETI_PORT,
     cluster: "",
     useTLS: true
-});
+})
 
 module.exports = pusher

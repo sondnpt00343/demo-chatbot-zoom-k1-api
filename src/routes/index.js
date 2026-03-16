@@ -1,19 +1,23 @@
 const fs = require('fs')
 const path = require('path')
 
+const postfix = '.route.js'
+
 const loadRoutes = (app) => {
   const routesDir = __dirname
   const files = fs.readdirSync(routesDir)
 
-  files.forEach((file) => {
-    if (file.endsWith('.routes.js') && file !== 'index.js') {
-      const routeModule = require(path.join(routesDir, file))
-      const { router, prefix } = routeModule
-      if (router && prefix) {
-        app.use(`/api${prefix}`, router)
+  for (const file of files) {
+    if (file.endsWith(postfix) && file !== 'index.js') {
+      const modulePath = path.join(routesDir, file)
+      const routeModule = require(modulePath)
+      const resource = file.replace(postfix, "")
+      const { router } = routeModule
+      if (router) {
+        app.use(`/api/${resource}`, router)
       }
     }
-  })
+  }
 }
 
 module.exports = loadRoutes
